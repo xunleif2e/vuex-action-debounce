@@ -1,23 +1,23 @@
 module.exports = function vuexActionDebounce (timeout = 0) {
   return (store) => {
-    const dispatchOrigin = store.dispatch;
+    const dispatchOrigin = store.dispatch
 
-    store.dispatch = debouncedDispatch;
-    store._debouncedActions = {};
+    store.dispatch = debouncedDispatch
+    store._debouncedActions = {}
 
     /**
      * @method debouncedDispatch
      * @return {Promise}
      */
     function debouncedDispatch () {
-      let args = Array.prototype.slice.call(arguments);
-      let actionType = Array.prototype.shift.call(args);
-      let argsKey = '';
+      let args = Array.prototype.slice.call(arguments)
+      let actionType = Array.prototype.shift.call(args)
+      let argsKey = ''
 
       try {
-        argsKey = JSON.stringify(args);
+        argsKey = JSON.stringify(args)
       } catch (e) {
-        console.warn(e);
+        console.warn(e)
       }
 
       return promiseOne(
@@ -25,7 +25,7 @@ module.exports = function vuexActionDebounce (timeout = 0) {
         `${actionType}_${argsKey}`,
         store._debouncedActions,
         timeout
-      );
+      )
     }
 
     /**
@@ -41,22 +41,21 @@ module.exports = function vuexActionDebounce (timeout = 0) {
       // console.group(key)
       if (!cacheObj[key]) {
         // console.log('no cache')
-        cacheObj[key] = createPromiseFn();
+        cacheObj[key] = createPromiseFn()
         // console.log('write cache')
         cacheObj[key]
-          .then(null, () => {
-          })
+          .then(null, () => {})
           .then(() => {
             setTimeout(() => {
-              delete cacheObj[key];
-            }, timeout);
-          });
+              delete cacheObj[key]
+            }, timeout)
+          })
       }
 
       // console.log('read cache')
       // console.groupEnd(key)
 
-      return cacheObj[key];
+      return cacheObj[key]
     }
-  };
-};
+  }
+}
