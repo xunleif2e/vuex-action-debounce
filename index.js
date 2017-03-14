@@ -1,4 +1,4 @@
-export default function vuexActionDebounce (timeout = 0) {
+module.exports = function vuexActionDebounce (timeout = 0) {
   return (store) => {
     const dispatchOrigin = store.dispatch;
 
