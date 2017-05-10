@@ -78,36 +78,40 @@ return /******/ (function(modules) { // webpackBootstrap
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
 
-module.exports = function vuexActionDebounce (timeout = 0) {
-  return (store) => {
-    const dispatchOrigin = store.dispatch
+"use strict";
 
-    store.dispatch = debouncedDispatch
-    store._debouncedActions = {}
+
+module.exports = function vuexActionDebounce() {
+  var timeout = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+
+  return function (store) {
+    var dispatchOrigin = store.dispatch;
+
+    store.dispatch = debouncedDispatch;
+    store._debouncedActions = {};
 
     /**
      * @method debouncedDispatch
      * @return {Promise}
      */
-    function debouncedDispatch () {
-      let args = Array.prototype.slice.call(arguments)
-      let actionType = Array.prototype.shift.call(args)
-      let argsKey = ''
+    function debouncedDispatch() {
+      var _arguments = arguments;
+
+      var args = Array.prototype.slice.call(arguments);
+      var actionType = Array.prototype.shift.call(args);
+      var argsKey = '';
 
       try {
-        argsKey = JSON.stringify(args)
+        argsKey = JSON.stringify(args);
       } catch (e) {
-        console.warn(e)
+        console.warn(e);
       }
 
-      return promiseOne(
-        () => dispatchOrigin.apply(store, arguments),
-        `${actionType}_${argsKey}`,
-        store._debouncedActions,
-        timeout
-      )
+      return promiseOne(function () {
+        return dispatchOrigin.apply(store, _arguments);
+      }, actionType + '_' + argsKey, store._debouncedActions, timeout);
     }
 
     /**
@@ -119,29 +123,26 @@ module.exports = function vuexActionDebounce (timeout = 0) {
      * @param {object} cacheObj - 缓存对象
      * @param {number} timeout - 缓存时间
      */
-    function promiseOne (createPromiseFn, key, cacheObj, timeout) {
+    function promiseOne(createPromiseFn, key, cacheObj, timeout) {
       // console.group(key)
       if (!cacheObj[key]) {
         // console.log('no cache')
-        cacheObj[key] = createPromiseFn()
+        cacheObj[key] = createPromiseFn();
         // console.log('write cache')
-        cacheObj[key]
-          .then(null, () => {})
-          .then(() => {
-            setTimeout(() => {
-              delete cacheObj[key]
-            }, timeout)
-          })
+        cacheObj[key].then(null, function () {}).then(function () {
+          setTimeout(function () {
+            delete cacheObj[key];
+          }, timeout);
+        });
       }
 
       // console.log('read cache')
       // console.groupEnd(key)
 
-      return cacheObj[key]
+      return cacheObj[key];
     }
-  }
-}
-
+  };
+};
 
 /***/ })
 /******/ ]);
