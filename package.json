@@ -1,6 +1,6 @@
 {
   "name": "@xunlei/vuex-action-debounce",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Vuex action debounce 插件，可以让相同类型及参数的action在单位时间内只有一次，从而避免重复网络请求",
   "main": "dist/index.js",
   "scripts": {
