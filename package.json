@@ -23,6 +23,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@gitlab.xunlei.cn:zhaobing/vuex-action-debounce.git"
+    "url": "git@github.com:xunleif2e/vuex-action-debounce.git"
   }
 }
